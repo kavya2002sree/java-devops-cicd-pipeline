@@ -1,4 +1,4 @@
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ae3ebb3d-0a8b-4d3c-9df1-b7138c5da17c" /><img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4345ec78-2470-48df-bcb3-32c6fde46085" /># Pull code from Github to Docker
+# Pull code from Github to Docker
 
 Deploying a Java webapp on a docker container through the use of Jenkins on EC2 instance
 
