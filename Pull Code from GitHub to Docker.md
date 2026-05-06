@@ -1,4 +1,4 @@
-# Pull code from Github to Docker
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/61d9214e-2cfd-497b-a566-488850251984" /># Pull code from Github to Docker
 
 Deploying a Java webapp on a docker container through the use of Jenkins on EC2 instance
 
@@ -252,13 +252,39 @@ Deploying a Java webapp on a docker container through the use of Jenkins on EC2 
       ## create a customised dockerfile for tomcat
 
       * To create the Dockerfile we will use the official Image of Tomcat and with it will mention the step to copy the contents from the directory /webapps.dist          to /webapps
+        ```
+          FROM  tomcat:latest
+          RUN cp -R /usr/local/tomcat/webapps.dist/* /usr/local/tomcat/webapps
+        ```
+       Build the Docker Image using this Dockerfile using the below command:
+         ```
+           sudo docker build -t tomcatserver .
+         ```
 
+       <img width="1920" height="463" alt="Screenshot (48)" src="https://github.com/user-attachments/assets/533df0a2-732f-4a22-a6c2-3767fac8a247" />
+ 
+      * run the docker container out of our customized docker image which we built using our dockerfile. The command is as:
+   
+        ```
+          docker run -d --name tomcat-server -p 8085:8080 tomcatserver
+        ```
         
+        <img width="1920" height="933" alt="Screenshot (49)" src="https://github.com/user-attachments/assets/636b3ab8-2610-4b10-b919-99bc944751e3" />
 
 
+      Step-5 : integrate Docker with jenkins
+
+      * create a docker admin user
+
+        <img width="1920" height="173" alt="Screenshot (50)" src="https://github.com/user-attachments/assets/2a171022-b78e-4f6c-a8c9-665b58c55792" />
 
 
+      * add this user to the Docker group with the below command:
+       ```
+         sudo usermod -aG docker dockeradmin
+       ```
 
+      Now in order to access the server using the newly created User we need to allow password-based authentication. For that, we need to do some changes in the         /etc/ssh/sshd_config file
 
 
 
