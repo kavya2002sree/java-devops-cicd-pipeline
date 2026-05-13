@@ -1,5 +1,3 @@
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/61d9214e-2cfd-497b-a566-488850251984" /># Pull code from Github to Docker
-
 Deploying a Java webapp on a docker container through the use of Jenkins on EC2 instance
 
 ## Step-1: setup jenkins server on AWS EC2 instance
@@ -272,24 +270,55 @@ Deploying a Java webapp on a docker container through the use of Jenkins on EC2 
         <img width="1920" height="933" alt="Screenshot (49)" src="https://github.com/user-attachments/assets/636b3ab8-2610-4b10-b919-99bc944751e3" />
 
 
-      Step-5 : integrate Docker with jenkins
+      ## Step-5 : integrate Docker with jenkins
 
       * create a docker admin user
 
         <img width="1920" height="173" alt="Screenshot (50)" src="https://github.com/user-attachments/assets/2a171022-b78e-4f6c-a8c9-665b58c55792" />
 
+      Or we can login docker hub using the github or gmail id in the docker hub website itself
 
-      * add this user to the Docker group with the below command:
+      <img width="1920" height="359" alt="Screenshot (51)" src="https://github.com/user-attachments/assets/bb95839b-25ec-4c94-9c33-4798e82fe371" />
+
+       * add this user to the Docker group with the below command:
        ```
-         sudo usermod -aG docker dockeradmin
+         sudo usermod -aG docker kavyasree20
        ```
+       use the below command to allow password based authentication,for that we need to do some changes in the below path file
 
-      Now in order to access the server using the newly created User we need to allow password-based authentication. For that, we need to do some changes in the         /etc/ssh/sshd_config file
+      ```
+        sudo vi /etc/ssh/sshd_config
+      ```
+      Now we would be able to log in using the dockeradmin user credentials:
+
+      <img width="1920" height="734" alt="Screenshot (54)" src="https://github.com/user-attachments/assets/a7e19b6d-fcd9-40e4-a029-0d277f8cbc44" />
+
+      Now next step is to integrate Docker with Jenkins, for that we need to install the “Publish Over SSH” plugin:
+
+      Go to Manage Jenkins > Manage Plugins > Available plugins and search for publish over ssh plugin:
+
+      search for publish over SSH and install the plugin
+
+      Click on Install without restart to install the plugin.
+
+      Now we need to configure our dockerhost in Jenkins. For that go to Manage Jenkins > System
+
+      <img width="1920" height="955" alt="Screenshot (56)" src="https://github.com/user-attachments/assets/05870c2f-dbc1-4014-9992-9c722547366a" />
+
+      It should be noted that it's best practice to use ssh keys however for this demo we are using password-based authentication. In the above screenshot, we           have provided details of our Docker host which we created on EC2 Instance. Also, note the use of private IP under Hostname as both our Jenkins Server and          Dockerhost are on the same subnet. We can also use Public IP here.
+
+      Click on Apply and Save to proceed. With this, our Docker integration with Jenkins is successfully accomplished.
+
+    ## Step-6: Create Jenkins Job to Build and Copy Artifacts on to Docker Host
+
+    click on crreate job from the jenkins dashboard and name it and create a job. Click on Ok to configure the job
+    On the configure settings you will notice that our new job has inherited all the settings from our previous build job. However, you can change the description     and other settings:
+    
+    
 
 
 
-
-
+    
 
 
 
