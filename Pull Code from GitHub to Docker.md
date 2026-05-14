@@ -314,7 +314,7 @@ Click on Apply and Save to proceed. With this, our Docker integration with Jenki
 click on crreate job from the jenkins dashboard and name it and create a job. Click on Ok to configure the job
 On the configure settings you will notice that our new job has inherited all the settings from our previous build job. However, you can change the description     and other settings:
 
-
+<img width="1891" height="926" alt="Screenshot (59)" src="https://github.com/user-attachments/assets/5ccc6579-ea67-4be5-a342-effbda877c9b" />
 
 
 
