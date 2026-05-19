@@ -290,6 +290,12 @@ use the below command to allow password based authentication,for that we need to
 sudo vi /etc/ssh/sshd_config
 ```
 Now we would be able to log in using the dockeradmin user credentials:
+before ruuning the docker try to run the below command:
+```
+service sshd reload
+```
+you will get the output as:
+Redirecting to /bin/systemctl reload sshd.service
 
 <img width="1920" height="734" alt="Screenshot (54)" src="https://github.com/user-attachments/assets/a7e19b6d-fcd9-40e4-a029-0d277f8cbc44" />
 
@@ -301,17 +307,26 @@ search for publish over SSH and install the plugin
 
 Click on Install without restart to install the plugin.
 
+<img width="1920" height="784" alt="Screenshot (83)" src="https://github.com/user-attachments/assets/7bda870f-2d94-48d4-b070-a833f83ea19e" />
+
+
 Now we need to configure our dockerhost in Jenkins. For that go to Manage Jenkins > System
 
 <img width="1920" height="955" alt="Screenshot (56)" src="https://github.com/user-attachments/assets/05870c2f-dbc1-4014-9992-9c722547366a" />
 
 It should be noted that it's best practice to use ssh keys however for this demo we are using password-based authentication. In the above screenshot, we           have provided details of our Docker host which we created on EC2 Instance. Also, note the use of private IP under Hostname as both our Jenkins Server and          Dockerhost are on the same subnet. We can also use Public IP here.
 
+when you click on text configuration if it fails remember to add the details of your pem in the key. Just copy paste the pem data in key.
+
 Click on Apply and Save to proceed. With this, our Docker integration with Jenkins is successfully accomplished.
 
 ## Step-6: Create Jenkins Job to Build and Copy Artifacts on to Docker Host
 
-click on crreate job from the jenkins dashboard and name it and create a job. Click on Ok to configure the job
+click on create job from the jenkins dashboard and name it and create a job. Click on freestyle option and ok.
+
+<img width="1920" height="864" alt="Screenshot (86)" src="https://github.com/user-attachments/assets/efb6eac1-62fe-4ba6-b7e6-99d1cdd68e3d" />
+
+
 On the configure settings you will notice that our new job has inherited all the settings from our previous build job. However, you can change the description     and other settings:
 
 <img width="1891" height="926" alt="Screenshot (59)" src="https://github.com/user-attachments/assets/5ccc6579-ea67-4be5-a342-effbda877c9b" />
