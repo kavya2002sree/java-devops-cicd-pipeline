@@ -331,8 +331,78 @@ On the configure settings you will notice that our new job has inherited all the
 
 <img width="1891" height="926" alt="Screenshot (59)" src="https://github.com/user-attachments/assets/5ccc6579-ea67-4be5-a342-effbda877c9b" />
 
+click on send files or execute over SSH option and add one SSH sever. It will automatically identify the previous home we have integrated in the system.
+In the server column add the following ones:
 
+<img width="1920" height="906" alt="Screenshot (79)" src="https://github.com/user-attachments/assets/3068d0bb-a20b-480c-b212-a3edf34cd6b5" />
 
+Click on Apply and Save to build the Job manually.
+If the build is successful we can see the onlienbookstore.war file in the /opt/docker directory of our dockerhost:
+<img width="1920" height="120" alt="Screenshot (68)" src="https://github.com/user-attachments/assets/7d9a42fe-baea-4673-9405-c325a9bab6b6" />
+
+## step-7  Update Dockerfile to copy Artifacts to launch New Container
+In this step, we will create a Dockerfile to include the webapp.war file to launch a new container using our Java web Application. For that, we need to copy our artifacts to the location where we have our Dockerfile.
+
+We will create a separate directory named docker under the root user of our dockerhost inside /opt.
+```
+cd /opt/
+mkdir docker
+chown -R dockeradmin:dockeradmin /opt/docker/
+```
+Now we need to configure our Jenkins job to change the remote directory from /home/dockeradmin to //opt//docker:
+Click on Apply and Save to build the Job manually.
+
+Now in our Dockerfile, we need to mention the location of this WAR file and copy this file onto the /usr/local/tomcat/webapps location in the container.
+
+Dockerfile:
+```
+FROM  tomcat:latest
+RUN cp -R /usr/local/tomcat/webapps.dist/* /usr/local/tomcat/webapps
+COPY ./*.war /usr/local/tomcat/webapps
+```
+
+verify it by using cat Dockerfile
+
+Let’s now build a new image using this updated Dockerfile with the command:
+
+```
+docker build -t tomcat:v1 .
+```
+
+<img width="1920" height="496" alt="Screenshot (66)" src="https://github.com/user-attachments/assets/de345dae-cdd1-4aad-bb28-a6194bd7853f" />
+
+In the next step let’s now create a container out of this image with the command:
+```
+docker run -d --name tomcatv1 -p 8091:8080 tomcat:v1
+```
+Now let’s access this application from our browser using URL https://52.90.146.242:8091/onlinebookstore/
+
+<img width="1920" height="978" alt="Screenshot (67)" src="https://github.com/user-attachments/assets/334ebdfa-72ae-402a-b7ed-411a02b1f2a9" />
+
+So far we have successfully copied the artifacts to our dockerhost and then manually used docker commands like docker build and docker run to deploy our application on the docker container.
+
+## Step 8: Automate Build and Deployment on Docker Container
+
+In this step, we will try to automate end to end Jenkins pipeline right from when we commit our code to GitHub, it should build it, create an artifact and then copy the artifacts to the docker host, create a docker image, and finally create a docker container to deploy the project.
+
+For this automation to happen we need to go to our Jenkins job, select configure, and under Send files or execute commands over SSH there is Exec command field where we need to put some commands as shown below:
+
+<img width="1920" height="901" alt="Screenshot (80)" src="https://github.com/user-attachments/assets/cea81665-24c7-4736-ab2f-7666e2a47bd6" />
+
+Now let’s do some minor changes in our code and commit the changes which will trigger the Jenkins build process and we can see the results of automation.
+
+As soon as I made some changes in the Readme file in the GitHub repository the build got triggered in our Jenkins Job.
+Inside the docker directory use the docker images command you will see the onlinebookstore and inside the docker ps we can see the onlinebookstore:v1
+
+<img width="1920" height="120" alt="Screenshot (64)" src="https://github.com/user-attachments/assets/b924bf50-a3c6-4328-8c19-f850a8942859" />
+
+Also, we if access our new dockerized app from our browser on port 8087, the result should be something like this:
+
+you can now access the web page in the same local address
+
+## Conclusion
+
+we have learnt how to integarted the required tools in jenkins using ec2 instance and we also get to know how the data is flowing from github to our local ip address using docker.
 
 
 
