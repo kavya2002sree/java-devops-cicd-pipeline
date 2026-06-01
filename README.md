@@ -60,14 +60,18 @@ Workflow Explanation
 
  Stage 1: Source Code Management
  Store application source code in GitHub.
+ 
  Stage 2: Continuous Integration
  Jenkins pulls code automatically.
  Maven builds and packages the application.
+ 
  Stage 3: Artifact Management
  WAR file generated inside the target directory.
+ 
  Stage 4: Containerization
  Docker image created using Dockerfile.
  WAR file deployed to Tomcat container.
+ 
  Stage 5: Deployment
  Container launched on Docker Host.
  Application exposed through public IP and port.
